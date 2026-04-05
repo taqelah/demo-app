@@ -19,10 +19,8 @@ class ProductCard extends StatelessWidget {
         onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            AspectRatio(
-              aspectRatio: 0.8,
+            Expanded(
               child: product.imageAsset.isNotEmpty
                   ? Image.asset(
                       product.imageAsset,

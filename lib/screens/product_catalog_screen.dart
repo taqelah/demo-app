@@ -226,54 +226,30 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                       }
                       return false;
                     },
-                    child: ListView.builder(
+                    child: GridView.builder(
                       key: TestKeys.catalogGrid,
                       controller: _scrollController,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 4),
-                      itemCount:
-                          (_displayedProducts.length / 2).ceil(),
-                      itemBuilder: (context, rowIndex) {
-                        final i1 = rowIndex * 2;
-                        final i2 = i1 + 1;
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 4),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Flexible(
-                                child: ProductCard(
-                                  key: TestKeys.catalogProductCard(
-                                      _displayedProducts[i1].id),
-                                  product: _displayedProducts[i1],
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                      context,
-                                      '/product-detail',
-                                      arguments: _displayedProducts[i1],
-                                    ).then((_) => _loadCart());
-                                  },
-                                ),
-                              ),
-                              if (i2 < _displayedProducts.length)
-                                Flexible(
-                                  child: ProductCard(
-                                    key: TestKeys.catalogProductCard(
-                                        _displayedProducts[i2].id),
-                                    product: _displayedProducts[i2],
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        '/product-detail',
-                                        arguments: _displayedProducts[i2],
-                                      ).then((_) => _loadCart());
-                                    },
-                                  ),
-                                )
-                              else
-                                const Flexible(child: SizedBox()),
-                            ],
-                          ),
+                      padding: const EdgeInsets.all(8),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.58,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                      ),
+                      itemCount: _displayedProducts.length,
+                      itemBuilder: (context, index) {
+                        final product = _displayedProducts[index];
+                        return ProductCard(
+                          key: TestKeys.catalogProductCard(product.id),
+                          product: product,
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              '/product-detail',
+                              arguments: product,
+                            ).then((_) => _loadCart());
+                          },
                         );
                       },
                     ),
