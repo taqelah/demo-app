@@ -6,9 +6,17 @@ Built with automation-friendly **test Keys** on every interactive element for Ap
 
 ## Screenshots
 
-| Home | Catalog | Product Detail | Cart |
-|------|---------|---------------|------|
-| Category cards | 2-column grid with pagination | Fixed bottom bar with Add to Cart | Swipe to delete |
+| Login | Home | Catalog |
+|-------|------|---------|
+| ![Login](screenshots/login.png) | ![Home](screenshots/home.png) | ![Catalog](screenshots/catalog.png) |
+
+| Product Detail | Cart | Checkout |
+|----------------|------|----------|
+| ![Product Detail](screenshots/product_detail.png) | ![Cart](screenshots/cart.png) | ![Checkout](screenshots/checkout.png) |
+
+| Navigation Drawer |
+|--------------------|
+| ![Drawer](screenshots/drawer.png) |
 
 ## Features
 
