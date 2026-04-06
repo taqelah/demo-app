@@ -135,6 +135,9 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
             ElevatedButton(
               key: TestKeys.reviewPlaceOrderButton,
               onPressed: _placeOrder,
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 48),
+              ),
               child: const Text('Place Order'),
             ),
           ],

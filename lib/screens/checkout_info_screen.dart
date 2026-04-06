@@ -110,6 +110,9 @@ class _CheckoutInfoScreenState extends State<CheckoutInfoScreen> {
               ElevatedButton(
                 key: TestKeys.checkoutInfoProceedButton,
                 onPressed: _proceed,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 48),
+                ),
                 child: const Text('To Payment'),
               ),
             ],

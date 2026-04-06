@@ -57,6 +57,7 @@ class LimeDemoApp extends StatefulWidget {
 }
 
 class _LimeDemoAppState extends State<LimeDemoApp> {
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   ThemeMode _themeMode = ThemeMode.light;
 
   @override
@@ -87,6 +88,9 @@ class _LimeDemoAppState extends State<LimeDemoApp> {
       child: MaterialApp(
         title: 'DemoApp',
         debugShowCheckedModeBanner: false,
+        scaffoldMessengerKey: _scaffoldMessengerKey,
+        scrollBehavior: const _NoStretchScrollBehavior(),
+        navigatorObservers: [_SnackBarClearObserver(_scaffoldMessengerKey)],
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: _themeMode,
@@ -114,5 +118,36 @@ class _LimeDemoAppState extends State<LimeDemoApp> {
         },
       ),
     );
+  }
+}
+
+class _NoStretchScrollBehavior extends ScrollBehavior {
+  const _NoStretchScrollBehavior();
+
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return GlowingOverscrollIndicator(
+      axisDirection: details.direction,
+      color: Theme.of(context).colorScheme.primary,
+      child: child,
+    );
+  }
+}
+
+class _SnackBarClearObserver extends NavigatorObserver {
+  final GlobalKey<ScaffoldMessengerState> messengerKey;
+  _SnackBarClearObserver(this.messengerKey);
+
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    messengerKey.currentState?.clearSnackBars();
+    messengerKey.currentState?.clearMaterialBanners();
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    messengerKey.currentState?.clearSnackBars();
+    messengerKey.currentState?.clearMaterialBanners();
   }
 }

@@ -5,11 +5,11 @@ class NotificationService {
 
   static Future<void> initialize() async {
     const androidSettings =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@drawable/ic_notification');
     const iosSettings = DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
     );
     const settings = InitializationSettings(
       android: androidSettings,
@@ -18,21 +18,27 @@ class NotificationService {
     await _plugin.initialize(settings: settings);
   }
 
+  static const _androidDetails = AndroidNotificationDetails(
+    'demo_channel',
+    'Demo Notifications',
+    channelDescription: 'Notifications for the demo app',
+    importance: Importance.high,
+    priority: Priority.high,
+    icon: '@drawable/ic_notification',
+    largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+  );
+
+  static const _notificationDetails = NotificationDetails(
+    android: _androidDetails,
+    iOS: DarwinNotificationDetails(),
+  );
+
   static Future<void> showInstantNotification({
     required String title,
     required String body,
   }) async {
-    const details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'demo_channel',
-        'Demo Notifications',
-        channelDescription: 'Notifications for the demo app',
-        importance: Importance.high,
-        priority: Priority.high,
-      ),
-      iOS: DarwinNotificationDetails(),
-    );
-    await _plugin.show(id: 0, title: title, body: body, notificationDetails: details);
+    await _plugin.show(
+        id: 0, title: title, body: body, notificationDetails: _notificationDetails);
   }
 
   static Future<void> scheduleNotification({
@@ -40,17 +46,8 @@ class NotificationService {
     required String body,
     required Duration delay,
   }) async {
-    const details = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'demo_channel',
-        'Demo Notifications',
-        channelDescription: 'Notifications for the demo app',
-        importance: Importance.high,
-        priority: Priority.high,
-      ),
-      iOS: DarwinNotificationDetails(),
-    );
     await Future.delayed(delay);
-    await _plugin.show(id: 1, title: title, body: body, notificationDetails: details);
+    await _plugin.show(
+        id: 1, title: title, body: body, notificationDetails: _notificationDetails);
   }
 }

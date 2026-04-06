@@ -4,11 +4,13 @@ import '../models/product.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
+  final VoidCallback? onAddToCart;
 
   const ProductCard({
     super.key,
     required this.product,
     required this.onTap,
+    this.onAddToCart,
   });
 
   @override
@@ -41,26 +43,48 @@ class ProductCard extends StatelessWidget {
                     ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              child: Row(
                 children: [
-                  Text(
-                    product.name,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.name,
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                        Text(
+                          '\$${product.price.toStringAsFixed(2)}',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '\$${product.price.toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                  if (onAddToCart != null)
+                    SizedBox(
+                      height: 32,
+                      width: 32,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: 20,
+                        onPressed: onAddToCart,
+                        icon: Icon(
+                          Icons.add_shopping_cart,
                           color: Theme.of(context).colorScheme.primary,
                         ),
-                  ),
+                      ),
+                    ),
                 ],
               ),
             ),

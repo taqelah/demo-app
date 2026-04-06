@@ -25,11 +25,15 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: _primaryColor,
         foregroundColor: Colors.white,
-        minimumSize: const Size(double.infinity, 48),
+        minimumSize: const Size(0, 48),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+    ),
+    snackBarTheme: const SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.horizontal,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
@@ -60,11 +64,15 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: _primaryDarkColor,
         foregroundColor: Colors.black,
-        minimumSize: const Size(double.infinity, 48),
+        minimumSize: const Size(0, 48),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
       ),
+    ),
+    snackBarTheme: const SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.horizontal,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(

@@ -126,6 +126,35 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
         .toList();
   }
 
+  Future<void> _addToCart(Product product) async {
+    final cartItems = await LocalStorageService.loadCart();
+    final existingIndex =
+        cartItems.indexWhere((item) => item.product.id == product.id);
+    if (existingIndex >= 0) {
+      cartItems[existingIndex].quantity += 1;
+    } else {
+      cartItems.add(CartItem(
+        product: product,
+        quantity: 1,
+        selectedColor: product.availableColors.first,
+      ));
+    }
+    await LocalStorageService.saveCart(cartItems);
+    await _loadCart();
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${product.name} added to cart'),
+        duration: const Duration(seconds: 2),
+        action: SnackBarAction(
+          label: 'VIEW CART',
+          onPressed: () => Navigator.pushNamed(context, '/cart'),
+        ),
+      ),
+    );
+  }
+
   void _onSearchChanged(String value) {
     setState(() {
       _searchQuery = value;
@@ -250,6 +279,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                               arguments: product,
                             ).then((_) => _loadCart());
                           },
+                          onAddToCart: () => _addToCart(product),
                         );
                       },
                     ),

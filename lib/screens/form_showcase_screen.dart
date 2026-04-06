@@ -269,6 +269,9 @@ class _FormShowcaseScreenState extends State<FormShowcaseScreen> {
                     child: ElevatedButton(
                       key: TestKeys.formSubmitButton,
                       onPressed: _submitForm,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 48),
+                      ),
                       child: const Text('Submit'),
                     ),
                   ),

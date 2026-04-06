@@ -55,6 +55,9 @@ class CheckoutCompleteScreen extends StatelessWidget {
                     Navigator.pushNamedAndRemoveUntil(
                         context, '/home', (route) => false);
                   },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 48),
+                  ),
                   child: const Text('Continue Shopping'),
                 ),
               ],

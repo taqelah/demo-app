@@ -163,28 +163,50 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    'Quantity',
-                    key: TestKeys.detailQuantityLabel,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  const SizedBox(height: 8),
-                  QuantitySelector(
-                    quantity: _quantity,
-                    onIncrement: () => setState(() => _quantity++),
-                    onDecrement: () => setState(() => _quantity--),
-                  ),
-                  const SizedBox(height: 32),
-                  ElevatedButton.icon(
-                    key: TestKeys.detailAddToCartButton,
-                    onPressed: () => _addToCart(product),
-                    icon: const Icon(Icons.add_shopping_cart),
-                    label: const Text('Add to Cart'),
-                  ),
+                  const SizedBox(height: 16),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 24),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Text(
+              '\$${(product.price * _quantity).toStringAsFixed(2)}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+            const SizedBox(width: 8),
+            QuantitySelector(
+              quantity: _quantity,
+              onIncrement: () => setState(() => _quantity++),
+              onDecrement: () => setState(() => _quantity--),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: ElevatedButton.icon(
+                key: TestKeys.detailAddToCartButton,
+                onPressed: () => _addToCart(product),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(0, 48),
+                ),
+                icon: const Icon(Icons.add_shopping_cart, size: 18),
+                label: const Text('Add to Cart'),
               ),
             ),
           ],

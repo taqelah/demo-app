@@ -234,6 +234,9 @@ class _CartScreenState extends State<CartScreen> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/checkout-info');
                         },
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 48),
+                        ),
                         child: const Text('Proceed to Checkout'),
                       ),
                     ],
