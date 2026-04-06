@@ -31,7 +31,12 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _navigateAfterDelay() async {
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
-    final loggedIn = await LocalStorageService.isLoggedIn();
+    bool loggedIn = false;
+    try {
+      loggedIn = await LocalStorageService.isLoggedIn();
+    } catch (_) {
+      // Default to not logged in
+    }
     if (!mounted) return;
     Navigator.pushReplacementNamed(
       context,

@@ -24,7 +24,11 @@ import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService.initialize();
+  try {
+    await NotificationService.initialize();
+  } catch (_) {
+    // Don't block app startup if notification init fails
+  }
   runApp(const LimeDemoApp());
 }
 
