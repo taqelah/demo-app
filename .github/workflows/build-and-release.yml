@@ -53,19 +53,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build iOS (simulator, no codesign)
-        run: flutter build ios --release --no-codesign
+      - name: Build iOS Simulator app
+        run: flutter build ios --simulator
 
       - name: Create .app zip
         run: |
-          cd build/ios/iphoneos
+          cd build/ios/iphonesimulator
           zip -r Runner.app.zip Runner.app
 
       - name: Upload iOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: ios-app
-          path: build/ios/iphoneos/Runner.app.zip
+          path: build/ios/iphonesimulator/Runner.app.zip
 
   release:
     name: Create GitHub Release
