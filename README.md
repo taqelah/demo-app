@@ -185,4 +185,6 @@ flutter test
 
 ## License
 
+MIT License. See [LICENSE](LICENSE) for details.
+
 This is a demo app from the [taqelah!](https://www.taqelah.sg) community for learning mobile UI test automation.
