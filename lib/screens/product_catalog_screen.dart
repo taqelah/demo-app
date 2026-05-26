@@ -170,6 +170,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
     final title =
         _categoryFilter != null ? '$_categoryFilter Dresses' : 'All Dresses';
     final totalCount = _filteredAllProducts.length;
+    final bool searchCrashed = _searchQuery.contains('*');
 
     return Scaffold(
       appBar: AppBar(
@@ -232,7 +233,25 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
             ),
           ),
           Expanded(
-            child: _displayedProducts.isEmpty && !_isLoadingMore
+            child: searchCrashed
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline,
+                            size: 72, color: Colors.red.shade400),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'App crashed on search result',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                : _displayedProducts.isEmpty && !_isLoadingMore
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
