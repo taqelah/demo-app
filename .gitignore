@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# iOS folder (keep Podfile.lock tracked for reproducible builds)
+/ios/*
+!/ios/Podfile.lock
