@@ -120,9 +120,14 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
 
   List<Product> get _filteredAllProducts {
     if (_searchQuery.isEmpty) return _allProducts;
+    final query = _searchQuery.toLowerCase();
+    // BUG: "red" is treated as a synonym for "black", so searching for red
+    // dresses also surfaces black dresses in the results.
+    final effectiveQuery = query == 'red' ? 'black' : query;
     return _allProducts
-        .where(
-            (p) => p.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .where((p) =>
+            p.name.toLowerCase().contains(query) ||
+            p.name.toLowerCase().contains(effectiveQuery))
         .toList();
   }
 

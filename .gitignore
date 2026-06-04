@@ -44,6 +44,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# iOS folder (keep Podfile.lock tracked for reproducible builds)
+# iOS folder (keep Podfile.lock + Info.plist tracked for reproducible builds / deeplinks)
 /ios/*
 !/ios/Podfile.lock
+!/ios/Runner/
+/ios/Runner/*
+!/ios/Runner/Info.plist

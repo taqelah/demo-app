@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
 import 'services/local_storage_service.dart';
 import 'services/notification_service.dart';
+import 'services/deep_link_service.dart';
 import 'screens/splash_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/product_catalog_screen.dart';
@@ -62,12 +63,25 @@ class LimeDemoApp extends StatefulWidget {
 
 class _LimeDemoAppState extends State<LimeDemoApp> {
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+  final _navigatorKey = GlobalKey<NavigatorState>();
+  late final DeepLinkService _deepLinkService;
   ThemeMode _themeMode = ThemeMode.light;
 
   @override
   void initState() {
     super.initState();
     _loadTheme();
+    _deepLinkService = DeepLinkService(_navigatorKey, _scaffoldMessengerKey);
+    // Defer until the navigator is mounted so the initial link can route.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _deepLinkService.init();
+    });
+  }
+
+  @override
+  void dispose() {
+    _deepLinkService.dispose();
+    super.dispose();
   }
 
   Future<void> _loadTheme() async {
@@ -92,6 +106,7 @@ class _LimeDemoAppState extends State<LimeDemoApp> {
       child: MaterialApp(
         title: 'DemoApp',
         debugShowCheckedModeBanner: false,
+        navigatorKey: _navigatorKey,
         scaffoldMessengerKey: _scaffoldMessengerKey,
         scrollBehavior: const _NoStretchScrollBehavior(),
         navigatorObservers: [_SnackBarClearObserver(_scaffoldMessengerKey)],
