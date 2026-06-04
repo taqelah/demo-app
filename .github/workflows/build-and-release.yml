@@ -53,11 +53,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      # Only Podfile.lock + Runner/Info.plist are tracked for iOS, so regenerate the
-      # rest of the Xcode project. flutter create leaves the tracked Info.plist in place.
-      - name: Regenerate iOS project
-        run: flutter create --platforms=ios .
-
       - name: Verify deeplink scheme present
         run: plutil -p ios/Runner/Info.plist | grep -q demoapp
 
