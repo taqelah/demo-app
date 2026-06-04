@@ -14,6 +14,17 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.taqelah.demo_app</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>demoapp</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleName</key>
 	<string>lime_demo_app</string>
 	<key>CFBundlePackageType</key>

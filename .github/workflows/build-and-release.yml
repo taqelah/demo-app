@@ -29,14 +29,14 @@ jobs:
       - name: Run tests
         run: flutter test
 
-      - name: Build APK
-        run: flutter build apk --release --no-tree-shake-icons
+      - name: Build debug APK
+        run: flutter build apk --debug --no-tree-shake-icons
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
   build-ios:
     name: Build iOS App
@@ -53,8 +53,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build iOS Simulator app
-        run: flutter build ios --simulator
+      - name: Verify deeplink scheme present
+        run: plutil -p ios/Runner/Info.plist | grep -q demoapp
+
+      - name: Build iOS Simulator app (debug)
+        run: flutter build ios --debug --simulator
 
       - name: Create .app zip
         run: |
@@ -88,14 +91,15 @@ jobs:
 
       - name: Rename artifacts
         run: |
-          mv artifacts/android/app-release.apk artifacts/DemoApp-${{ github.event.inputs.version }}.apk
-          mv artifacts/ios/Runner.app.zip artifacts/DemoApp-${{ github.event.inputs.version }}-ios.app.zip
+          mv artifacts/android/app-debug.apk artifacts/DemoApp-${{ github.event.inputs.version }}-debug.apk
+          mv artifacts/ios/Runner.app.zip artifacts/DemoApp-${{ github.event.inputs.version }}-debug-ios.app.zip
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.version }}
           generate_release_notes: true
+          prerelease: true
           files: |
-            artifacts/DemoApp-${{ github.event.inputs.version }}.apk
-            artifacts/DemoApp-${{ github.event.inputs.version }}-ios.app.zip
+            artifacts/DemoApp-${{ github.event.inputs.version }}-debug.apk
+            artifacts/DemoApp-${{ github.event.inputs.version }}-debug-ios.app.zip

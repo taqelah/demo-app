@@ -120,9 +120,14 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
 
   List<Product> get _filteredAllProducts {
     if (_searchQuery.isEmpty) return _allProducts;
+    final query = _searchQuery.toLowerCase();
+    // BUG: "red" is treated as a synonym for "black", so searching for red
+    // dresses also surfaces black dresses in the results.
+    final effectiveQuery = query == 'red' ? 'black' : query;
     return _allProducts
-        .where(
-            (p) => p.name.toLowerCase().contains(_searchQuery.toLowerCase()))
+        .where((p) =>
+            p.name.toLowerCase().contains(query) ||
+            p.name.toLowerCase().contains(effectiveQuery))
         .toList();
   }
 
@@ -170,6 +175,7 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
     final title =
         _categoryFilter != null ? '$_categoryFilter Dresses' : 'All Dresses';
     final totalCount = _filteredAllProducts.length;
+    final bool searchCrashed = _searchQuery.contains('*');
 
     return Scaffold(
       appBar: AppBar(
@@ -232,7 +238,25 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
             ),
           ),
           Expanded(
-            child: _displayedProducts.isEmpty && !_isLoadingMore
+            child: searchCrashed
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline,
+                            size: 72, color: Colors.red.shade400),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'App crashed on search result',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                : _displayedProducts.isEmpty && !_isLoadingMore
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

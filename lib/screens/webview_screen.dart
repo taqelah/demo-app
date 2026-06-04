@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../constants/test_keys.dart';
 
 class WebViewScreen extends StatefulWidget {
@@ -18,6 +20,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   void initState() {
     super.initState();
+    // Enable Chrome DevTools remote inspection (chrome://inspect) of WebView
+    // contents in debug builds. Wraps native setWebContentsDebuggingEnabled(true).
+    if (kDebugMode && defaultTargetPlatform == TargetPlatform.android) {
+      AndroidWebViewController.enableDebugging(true);
+    }
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
