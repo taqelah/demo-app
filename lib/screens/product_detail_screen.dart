@@ -171,7 +171,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.fromLTRB(12, 10, 12, 24),
+        // Add the system navigation bar inset so the action row stays above it
+        // when the app is drawn edge-to-edge (Android 15+).
+        padding: EdgeInsets.fromLTRB(
+            12, 10, 12, 24 + MediaQuery.paddingOf(context).bottom),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           boxShadow: [

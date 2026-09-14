@@ -94,7 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: const AppDrawer(),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        // Reserve the system navigation bar inset so the last category card
+        // stays clear of it under edge-to-edge.
+        padding: EdgeInsets.fromLTRB(
+            16, 16, 16, 16 + MediaQuery.paddingOf(context).bottom),
         children: [
           // Hero banner
           ClipRRect(

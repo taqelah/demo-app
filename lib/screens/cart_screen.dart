@@ -191,7 +191,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  // Keep the total + checkout button clear of the system
+                  // navigation bar under edge-to-edge.
+                  padding: EdgeInsets.fromLTRB(
+                      16, 16, 16, 16 + MediaQuery.paddingOf(context).bottom),
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     boxShadow: [

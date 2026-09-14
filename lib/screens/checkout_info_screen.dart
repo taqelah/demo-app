@@ -34,7 +34,8 @@ class _CheckoutInfoScreenState extends State<CheckoutInfoScreen> {
         title: const Text('Shipping Info'),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.fromLTRB(
+            16, 16, 16, 16 + MediaQuery.paddingOf(context).bottom),
         child: Form(
           key: _formKey,
           child: Column(
