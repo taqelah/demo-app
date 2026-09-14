@@ -45,7 +45,10 @@ class _AppDrawerState extends State<AppDrawer> {
 
     return Drawer(
       child: ListView(
-        padding: EdgeInsets.zero,
+        // Keep the header flush with the status bar, but reserve room at the
+        // bottom so the last tile clears the system navigation bar and stays
+        // tappable.
+        padding: EdgeInsets.only(bottom: MediaQuery.paddingOf(context).bottom),
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
