@@ -17,6 +17,11 @@ class TestKeys {
   static const loginErrorMessage = Key('login_error_message');
   static const loginCredentialsHint = Key('login_credentials_hint');
 
+  // ============ Home Screen ============
+  static const homeWelcomeDialog = Key('home_welcome_dialog');
+  static const homeWelcomeMessage = Key('home_welcome_message');
+  static const homeWelcomeContinueButton = Key('home_welcome_continue_button');
+
   // ============ Product Catalog Screen ============
   static const catalogSortButton = Key('catalog_sort_button');
   static const catalogCartBadge = Key('catalog_cart_badge');

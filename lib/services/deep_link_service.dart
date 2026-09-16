@@ -4,6 +4,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/app_constants.dart';
+import '../screens/home_screen.dart';
 import 'local_storage_service.dart';
 
 /// Handles custom-scheme deeplinks of the form:
@@ -61,8 +62,11 @@ class DeepLinkService {
 
   Future<void> _loginAndGoHome(String username) async {
     await LocalStorageService.saveLoginState(true, username);
-    navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil('/home', (route) => false);
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(
+      '/home',
+      (route) => false,
+      arguments: const HomeArgs(showWelcome: true),
+    );
   }
 
   void _goToLoginWithError() {

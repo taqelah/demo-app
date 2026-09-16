@@ -1,19 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lime_demo_app/constants/app_constants.dart';
 import 'package:lime_demo_app/constants/test_keys.dart';
+import 'package:lime_demo_app/screens/home_screen.dart';
 import 'package:lime_demo_app/screens/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Object? capturedHomeArgs;
 
 Widget _buildTestApp({Widget? child}) {
   return MaterialApp(
     home: child ?? const LoginScreen(),
-    routes: {
-      '/home': (_) => const Scaffold(body: Text('Home')),
-      '/catalog': (_) => const Scaffold(body: Text('Catalog')),
+    onGenerateRoute: (settings) {
+      if (settings.name == '/home') {
+        capturedHomeArgs = settings.arguments;
+        return MaterialPageRoute(
+          builder: (_) => const Scaffold(body: Text('Home')),
+          settings: settings,
+        );
+      }
+      return MaterialPageRoute(
+        builder: (_) => const Scaffold(body: Text('Catalog')),
+        settings: settings,
+      );
     },
   );
 }
 
+Future<void> _submitValidCredentials(WidgetTester tester) async {
+  await tester.enterText(
+      find.byKey(TestKeys.loginUsernameField), AppConstants.validUsername);
+  await tester.enterText(
+      find.byKey(TestKeys.loginPasswordField), AppConstants.validPassword);
+  await tester.tap(find.byKey(TestKeys.loginButton));
+  await tester.pumpAndSettle();
+}
+
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    capturedHomeArgs = null;
+  });
+
   group('LoginScreen', () {
     testWidgets('should render all login elements', (tester) async {
       await tester.pumpWidget(_buildTestApp());
@@ -69,6 +99,18 @@ void main() {
 
       expect(find.byKey(TestKeys.loginErrorMessage), findsOneWidget);
       expect(find.textContaining('Invalid username or password'), findsOneWidget);
+    });
+
+    testWidgets('valid credentials should navigate home with the welcome flag',
+        (tester) async {
+      await tester.pumpWidget(_buildTestApp());
+      await tester.pumpAndSettle();
+
+      await _submitValidCredentials(tester);
+
+      expect(find.text('Home'), findsOneWidget);
+      expect(capturedHomeArgs, isA<HomeArgs>());
+      expect((capturedHomeArgs as HomeArgs).showWelcome, isTrue);
     });
 
     testWidgets('password toggle should work', (tester) async {
