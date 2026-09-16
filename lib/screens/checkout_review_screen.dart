@@ -3,6 +3,7 @@ import '../constants/test_keys.dart';
 import '../models/checkout_info.dart';
 import '../models/cart_item.dart';
 import '../services/local_storage_service.dart';
+import '../widgets/test_id.dart';
 
 class CheckoutReviewScreen extends StatefulWidget {
   const CheckoutReviewScreen({super.key});
@@ -58,20 +59,23 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
                   ),
             ),
             const SizedBox(height: 8),
-            Card(
-              key: TestKeys.reviewShippingCard,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(info.fullName,
-                        style: const TextStyle(fontWeight: FontWeight.w600)),
-                    Text(info.addressLine1),
-                    if (info.addressLine2.isNotEmpty) Text(info.addressLine2),
-                    Text('${info.city}, ${info.state} ${info.zipCode}'),
-                    Text(info.country),
-                  ],
+            TestId(
+              TestKeys.reviewShippingCard,
+              child: Card(
+                key: TestKeys.reviewShippingCard,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(info.fullName,
+                          style: const TextStyle(fontWeight: FontWeight.w600)),
+                      Text(info.addressLine1),
+                      if (info.addressLine2.isNotEmpty) Text(info.addressLine2),
+                      Text('${info.city}, ${info.state} ${info.zipCode}'),
+                      Text(info.country),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -84,7 +88,9 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
             ),
             const SizedBox(height: 8),
             ..._cartItems.asMap().entries.map(
-                  (entry) => Card(
+                  (entry) => TestId(
+                               TestKeys.reviewOrderItem(entry.key),
+                               child: Card(
                     key: TestKeys.reviewOrderItem(entry.key),
                     child: ListTile(
                       leading: Container(
@@ -92,12 +98,12 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
                         height: 40,
                         decoration: BoxDecoration(
                           color: Color(entry.value.product.colorValue)
-                              .withValues(alpha: 0.15),
+                                .withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Icon(
                           IconData(entry.value.product.iconCodePoint,
-                              fontFamily: 'MaterialIcons'),
+                                fontFamily: 'MaterialIcons'),
                           color: Color(entry.value.product.colorValue),
                           size: 24,
                         ),
@@ -110,6 +116,7 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
                       ),
                     ),
                   ),
+                             ),
                 ),
             const SizedBox(height: 16),
             const Divider(),
@@ -122,24 +129,30 @@ class _CheckoutReviewScreenState extends State<CheckoutReviewScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                Text(
-                  '\$${_totalPrice.toStringAsFixed(2)}',
-                  key: TestKeys.reviewTotalText,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                TestId(
+                  TestKeys.reviewTotalText,
+                  child: Text(
+                    '\$${_totalPrice.toStringAsFixed(2)}',
+                    key: TestKeys.reviewTotalText,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              key: TestKeys.reviewPlaceOrderButton,
-              onPressed: _placeOrder,
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 48),
+            TestId(
+              TestKeys.reviewPlaceOrderButton,
+              child: ElevatedButton(
+                key: TestKeys.reviewPlaceOrderButton,
+                onPressed: _placeOrder,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 48),
+                ),
+                child: const Text('Place Order'),
               ),
-              child: const Text('Place Order'),
             ),
           ],
         ),

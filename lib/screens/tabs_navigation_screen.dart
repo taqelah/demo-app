@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import '../widgets/test_id.dart';
 
 class TabsNavigationScreen extends StatefulWidget {
   const TabsNavigationScreen({super.key});
@@ -20,9 +21,18 @@ class _TabsNavigationScreenState extends State<TabsNavigationScreen> {
           title: const Text('Tabs & Navigation'),
           bottom: TabBar(
             tabs: [
-              Tab(key: TestKeys.tabsFeedTab, text: 'Feed', icon: const Icon(Icons.rss_feed)),
-              Tab(key: TestKeys.tabsSearchTab, text: 'Search', icon: const Icon(Icons.search)),
-              Tab(key: TestKeys.tabsProfileTab, text: 'Profile', icon: const Icon(Icons.person)),
+              TestId(
+                TestKeys.tabsFeedTab,
+                child: Tab(key: TestKeys.tabsFeedTab, text: 'Feed', icon: const Icon(Icons.rss_feed)),
+              ),
+              TestId(
+                TestKeys.tabsSearchTab,
+                child: Tab(key: TestKeys.tabsSearchTab, text: 'Search', icon: const Icon(Icons.search)),
+              ),
+              TestId(
+                TestKeys.tabsProfileTab,
+                child: Tab(key: TestKeys.tabsProfileTab, text: 'Profile', icon: const Icon(Icons.person)),
+              ),
             ],
           ),
         ),
@@ -49,48 +59,56 @@ class _TabsNavigationScreenState extends State<TabsNavigationScreen> {
               style: TextStyle(color: Colors.grey)),
         ),
         Expanded(
-          child: PageView.builder(
+          child: TestId(
+                   TestKeys.tabsPageView,
+                   child: PageView.builder(
             key: TestKeys.tabsPageView,
             itemCount: 3,
             itemBuilder: (context, index) {
               final colors = [Colors.blue, Colors.green, Colors.orange];
-              return Container(
+              return TestId(
+                         TestKeys.tabsPage(index),
+                         child: Container(
                 key: TestKeys.tabsPage(index),
                 margin: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colors[index].withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(16),
+                    color: colors[index].withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(16),
                 ),
                 child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.swipe, size: 48, color: colors[index]),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Page ${index + 1} of 3',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: colors[index],
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text('Swipe left or right',
-                          style: TextStyle(color: colors[index])),
-                    ],
-                  ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                          Icon(Icons.swipe, size: 48, color: colors[index]),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Page ${index + 1} of 3',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: colors[index],
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text('Swipe left or right',
+                              style: TextStyle(color: colors[index])),
+                      ],
+                    ),
                 ),
-              );
+              ),
+                       );
             },
           ),
+                 ),
         ),
       ],
     );
   }
 
   Widget _buildSearchTab() {
-    return Center(
+    return TestId(
+             TestKeys.tabsSearchContent,
+             child: Center(
       key: TestKeys.tabsSearchContent,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -98,13 +116,14 @@ class _TabsNavigationScreenState extends State<TabsNavigationScreen> {
           Icon(Icons.search, size: 64, color: Colors.grey.shade400),
           const SizedBox(height: 12),
           const Text('Search Tab Content',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const SizedBox(height: 4),
           const Text('This tab demonstrates tab switching',
-              style: TextStyle(color: Colors.grey)),
+                style: TextStyle(color: Colors.grey)),
         ],
       ),
-    );
+    ),
+           );
   }
 
   Widget _buildProfileTab() {
@@ -143,24 +162,36 @@ class _TabsNavigationScreenState extends State<TabsNavigationScreen> {
               style: TextStyle(color: Colors.grey)),
         ),
         Expanded(child: pages[_bottomNavIndex]),
-        BottomNavigationBar(
-          key: TestKeys.tabsBottomNav,
-          currentIndex: _bottomNavIndex,
-          onTap: (i) => setState(() => _bottomNavIndex = i),
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, key: TestKeys.tabsBottomNavItem(0)),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, key: TestKeys.tabsBottomNavItem(1)),
-              label: 'Favorites',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings, key: TestKeys.tabsBottomNavItem(2)),
-              label: 'Settings',
-            ),
-          ],
+        TestId(
+          TestKeys.tabsBottomNav,
+          child: BottomNavigationBar(
+            key: TestKeys.tabsBottomNav,
+            currentIndex: _bottomNavIndex,
+            onTap: (i) => setState(() => _bottomNavIndex = i),
+            items: [
+              BottomNavigationBarItem(
+                icon: TestId(
+                        TestKeys.tabsBottomNavItem(0),
+                        child: Icon(Icons.home, key: TestKeys.tabsBottomNavItem(0)),
+                      ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: TestId(
+                        TestKeys.tabsBottomNavItem(1),
+                        child: Icon(Icons.favorite, key: TestKeys.tabsBottomNavItem(1)),
+                      ),
+                label: 'Favorites',
+              ),
+              BottomNavigationBarItem(
+                icon: TestId(
+                        TestKeys.tabsBottomNavItem(2),
+                        child: Icon(Icons.settings, key: TestKeys.tabsBottomNavItem(2)),
+                      ),
+                label: 'Settings',
+              ),
+            ],
+          ),
         ),
       ],
     );

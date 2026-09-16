@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import '../widgets/test_id.dart';
 
 class DialogShowcaseScreen extends StatefulWidget {
   const DialogShowcaseScreen({super.key});
@@ -18,21 +19,27 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
         title: const Text('Alert Dialog'),
         content: const Text('This is a sample alert dialog. Choose an action.'),
         actions: [
-          TextButton(
-            key: TestKeys.dialogAlertCancel,
-            onPressed: () {
-              Navigator.pop(ctx);
-              setState(() => _resultText = 'Alert: Cancelled');
-            },
-            child: const Text('Cancel'),
+          TestId(
+            TestKeys.dialogAlertCancel,
+            child: TextButton(
+              key: TestKeys.dialogAlertCancel,
+              onPressed: () {
+                Navigator.pop(ctx);
+                setState(() => _resultText = 'Alert: Cancelled');
+              },
+              child: const Text('Cancel'),
+            ),
           ),
-          TextButton(
-            key: TestKeys.dialogAlertOk,
-            onPressed: () {
-              Navigator.pop(ctx);
-              setState(() => _resultText = 'Alert: OK pressed');
-            },
-            child: const Text('OK'),
+          TestId(
+            TestKeys.dialogAlertOk,
+            child: TextButton(
+              key: TestKeys.dialogAlertOk,
+              onPressed: () {
+                Navigator.pop(ctx);
+                setState(() => _resultText = 'Alert: OK pressed');
+              },
+              child: const Text('OK'),
+            ),
           ),
         ],
       ),
@@ -52,13 +59,16 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
             const SizedBox(height: 12),
             const Text('This is a modal bottom sheet with some content.'),
             const SizedBox(height: 16),
-            ElevatedButton(
-              key: TestKeys.dialogBottomSheetClose,
-              onPressed: () {
-                Navigator.pop(ctx);
-                setState(() => _resultText = 'Bottom Sheet: Closed');
-              },
-              child: const Text('Close'),
+            TestId(
+              TestKeys.dialogBottomSheetClose,
+              child: ElevatedButton(
+                key: TestKeys.dialogBottomSheetClose,
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  setState(() => _resultText = 'Bottom Sheet: Closed');
+                },
+                child: const Text('Close'),
+              ),
             ),
           ],
         ),
@@ -119,14 +129,17 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
       builder: (ctx) => SimpleDialog(
         title: const Text('Choose an option'),
         children: ['Red', 'Blue', 'Green'].map((color) {
-          return SimpleDialogOption(
+          return TestId(
+                   TestKeys.dialogSimpleOption(color.toLowerCase()),
+                   child: SimpleDialogOption(
             key: TestKeys.dialogSimpleOption(color.toLowerCase()),
             onPressed: () {
               Navigator.pop(ctx);
               setState(() => _resultText = 'Simple Dialog: $color selected');
             },
             child: Text(color),
-          );
+          ),
+                 );
         }).toList(),
       ),
     );
@@ -139,7 +152,9 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
         builder: (ctx) => Scaffold(
           appBar: AppBar(
             title: const Text('Full Screen Dialog'),
-            leading: IconButton(
+            leading: TestId(
+                       TestKeys.dialogFullscreenClose,
+                       child: IconButton(
               key: TestKeys.dialogFullscreenClose,
               icon: const Icon(Icons.close),
               onPressed: () {
@@ -147,19 +162,23 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
                 setState(() => _resultText = 'Full Screen: Closed');
               },
             ),
+                     ),
           ),
-          body: Center(
+          body: TestId(
+                  TestKeys.dialogFullscreenContent,
+                  child: Center(
             key: TestKeys.dialogFullscreenContent,
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.fullscreen, size: 80, color: Colors.grey),
-                SizedBox(height: 16),
-                Text('This is a full-screen dialog',
-                    style: TextStyle(fontSize: 18)),
+                  Icon(Icons.fullscreen, size: 80, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('This is a full-screen dialog',
+                      style: TextStyle(fontSize: 18)),
               ],
             ),
           ),
+                ),
         ),
       ),
     );
@@ -176,56 +195,80 @@ class _DialogShowcaseScreenState extends State<DialogShowcaseScreen> {
             color: Theme.of(context).colorScheme.primaryContainer,
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
+              child: TestId(
+                       TestKeys.dialogResultText,
+                       child: Text(
                 _resultText,
                 key: TestKeys.dialogResultText,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
+                     ),
             ),
           ),
           const SizedBox(height: 16),
-          _buildButton(
-            key: TestKeys.dialogAlertTrigger,
-            icon: Icons.warning_amber,
-            label: 'Alert Dialog',
-            onPressed: _showAlertDialog,
+          TestId(
+            TestKeys.dialogAlertTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogAlertTrigger,
+              icon: Icons.warning_amber,
+              label: 'Alert Dialog',
+              onPressed: _showAlertDialog,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogBottomSheetTrigger,
-            icon: Icons.vertical_align_bottom,
-            label: 'Bottom Sheet',
-            onPressed: _showBottomSheet,
+          TestId(
+            TestKeys.dialogBottomSheetTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogBottomSheetTrigger,
+              icon: Icons.vertical_align_bottom,
+              label: 'Bottom Sheet',
+              onPressed: _showBottomSheet,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogSnackbarTrigger,
-            icon: Icons.info_outline,
-            label: 'Snackbar',
-            onPressed: _showSnackbar,
+          TestId(
+            TestKeys.dialogSnackbarTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogSnackbarTrigger,
+              icon: Icons.info_outline,
+              label: 'Snackbar',
+              onPressed: _showSnackbar,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogDatePickerTrigger,
-            icon: Icons.calendar_today,
-            label: 'Date Picker',
-            onPressed: _showDatePicker,
+          TestId(
+            TestKeys.dialogDatePickerTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogDatePickerTrigger,
+              icon: Icons.calendar_today,
+              label: 'Date Picker',
+              onPressed: _showDatePicker,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogTimePickerTrigger,
-            icon: Icons.access_time,
-            label: 'Time Picker',
-            onPressed: _showTimePicker,
+          TestId(
+            TestKeys.dialogTimePickerTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogTimePickerTrigger,
+              icon: Icons.access_time,
+              label: 'Time Picker',
+              onPressed: _showTimePicker,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogSimpleTrigger,
-            icon: Icons.radio_button_checked,
-            label: 'Simple Dialog (Radio Options)',
-            onPressed: _showSimpleDialog,
+          TestId(
+            TestKeys.dialogSimpleTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogSimpleTrigger,
+              icon: Icons.radio_button_checked,
+              label: 'Simple Dialog (Radio Options)',
+              onPressed: _showSimpleDialog,
+            ),
           ),
-          _buildButton(
-            key: TestKeys.dialogFullscreenTrigger,
-            icon: Icons.fullscreen,
-            label: 'Full-Screen Dialog',
-            onPressed: _showFullScreenDialog,
+          TestId(
+            TestKeys.dialogFullscreenTrigger,
+            child: _buildButton(
+              key: TestKeys.dialogFullscreenTrigger,
+              icon: Icons.fullscreen,
+              label: 'Full-Screen Dialog',
+              onPressed: _showFullScreenDialog,
+            ),
           ),
         ],
       ),

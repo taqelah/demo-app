@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import 'test_id.dart';
 
 class QuantitySelector extends StatelessWidget {
   final int quantity;
@@ -18,28 +19,37 @@ class QuantitySelector extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          key: TestKeys.quantityDecrementButton,
-          onPressed: quantity > 1 ? onDecrement : null,
-          icon: const Icon(Icons.remove_circle_outline),
-          iconSize: 28,
+        TestId(
+          TestKeys.quantityDecrementButton,
+          child: IconButton(
+            key: TestKeys.quantityDecrementButton,
+            onPressed: quantity > 1 ? onDecrement : null,
+            icon: const Icon(Icons.remove_circle_outline),
+            iconSize: 28,
+          ),
         ),
         SizedBox(
           width: 40,
-          child: Text(
+          child: TestId(
+                   TestKeys.quantityValueText,
+                   child: Text(
             '$quantity',
             key: TestKeys.quantityValueText,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                 ),
           ),
+                 ),
         ),
-        IconButton(
-          key: TestKeys.quantityIncrementButton,
-          onPressed: onIncrement,
-          icon: const Icon(Icons.add_circle_outline),
-          iconSize: 28,
+        TestId(
+          TestKeys.quantityIncrementButton,
+          child: IconButton(
+            key: TestKeys.quantityIncrementButton,
+            onPressed: onIncrement,
+            icon: const Icon(Icons.add_circle_outline),
+            iconSize: 28,
+          ),
         ),
       ],
     );

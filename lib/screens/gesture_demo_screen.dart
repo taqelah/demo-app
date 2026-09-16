@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import '../widgets/test_id.dart';
 
 class GestureDemoScreen extends StatefulWidget {
   const GestureDemoScreen({super.key});
@@ -51,16 +52,21 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           // Section 1: Dismissible Cards
-          Text('Swipe Cards',
-              key: TestKeys.gestureSwipeSection,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          TestId(
+            TestKeys.gestureSwipeSection,
+            child: Text('Swipe Cards',
+                key: TestKeys.gestureSwipeSection,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+          ),
           const SizedBox(height: 4),
           const Text('Swipe right to favorite, left to delete'),
           const SizedBox(height: 8),
-          ..._swipeItems.map((item) => Dismissible(
+          ..._swipeItems.map((item) => TestId(
+                                         TestKeys.gestureDismissibleCard(item.id),
+                                         child: Dismissible(
                 key: TestKeys.gestureDismissibleCard(item.id),
                 background: Container(
                   alignment: Alignment.centerLeft,
@@ -99,7 +105,8 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
                     title: Text(item.title),
                   ),
                 ),
-              )),
+              ),
+                                       )),
 
           const Divider(height: 32),
 
@@ -114,7 +121,9 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
           const SizedBox(height: 8),
           SizedBox(
             height: 300,
-            child: ReorderableListView.builder(
+            child: TestId(
+                     TestKeys.gestureReorderableList,
+                     child: ReorderableListView.builder(
               key: TestKeys.gestureReorderableList,
               itemCount: _reorderItems.length,
               onReorder: (oldIndex, newIndex) {
@@ -125,17 +134,21 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
                 });
               },
               itemBuilder: (context, index) {
-                return Card(
+                return TestId(
+                           TestKeys.gestureReorderableItem(index),
+                           child: Card(
                   key: TestKeys.gestureReorderableItem(index),
                   margin: const EdgeInsets.symmetric(vertical: 4),
                   child: ListTile(
-                    leading: CircleAvatar(child: Text('${index + 1}')),
-                    title: Text(_reorderItems[index]),
-                    trailing: const Icon(Icons.drag_handle),
+                      leading: CircleAvatar(child: Text('${index + 1}')),
+                      title: Text(_reorderItems[index]),
+                      trailing: const Icon(Icons.drag_handle),
                   ),
-                );
+                ),
+                         );
               },
             ),
+                   ),
           ),
 
           const Divider(height: 32),
@@ -149,44 +162,47 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
           const SizedBox(height: 8),
           Text(_longPressResult),
           const SizedBox(height: 8),
-          GestureDetector(
-            key: TestKeys.gestureLongPressCard,
-            onLongPressStart: (details) {
-              showMenu(
-                context: context,
-                position: RelativeRect.fromLTRB(
-                  details.globalPosition.dx,
-                  details.globalPosition.dy,
-                  details.globalPosition.dx,
-                  details.globalPosition.dy,
+          TestId(
+            TestKeys.gestureLongPressCard,
+            child: GestureDetector(
+              key: TestKeys.gestureLongPressCard,
+              onLongPressStart: (details) {
+                showMenu(
+                  context: context,
+                  position: RelativeRect.fromLTRB(
+                    details.globalPosition.dx,
+                    details.globalPosition.dy,
+                    details.globalPosition.dx,
+                    details.globalPosition.dy,
+                  ),
+                  items: [
+                    PopupMenuItem(
+                      value: 'copy',
+                      child: const Text('Copy'),
+                      onTap: () =>
+                          setState(() => _longPressResult = 'Copied!'),
+                    ),
+                    PopupMenuItem(
+                      value: 'share',
+                      child: const Text('Share'),
+                      onTap: () =>
+                          setState(() => _longPressResult = 'Shared!'),
+                    ),
+                    PopupMenuItem(
+                      value: 'delete',
+                      child: const Text('Delete'),
+                      onTap: () =>
+                          setState(() => _longPressResult = 'Deleted!'),
+                    ),
+                  ],
+                );
+              },
+              child: Card(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: const Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Center(child: Text('Long press me for options')),
                 ),
-                items: [
-                  PopupMenuItem(
-                    value: 'copy',
-                    child: const Text('Copy'),
-                    onTap: () =>
-                        setState(() => _longPressResult = 'Copied!'),
-                  ),
-                  PopupMenuItem(
-                    value: 'share',
-                    child: const Text('Share'),
-                    onTap: () =>
-                        setState(() => _longPressResult = 'Shared!'),
-                  ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: const Text('Delete'),
-                    onTap: () =>
-                        setState(() => _longPressResult = 'Deleted!'),
-                  ),
-                ],
-              );
-            },
-            child: Card(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              child: const Padding(
-                padding: EdgeInsets.all(24),
-                child: Center(child: Text('Long press me for options')),
               ),
             ),
           ),
@@ -200,24 +216,27 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          GestureDetector(
-            key: TestKeys.gestureDoubleTapImage,
-            onDoubleTap: _toggleZoom,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SizedBox(
-                height: 200,
-                child: InteractiveViewer(
-                  transformationController: _transformController,
-                  child: Container(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.15),
-                    child: Center(
-                      child: Icon(Icons.checkroom,
-                          size: 80,
-                          color: Theme.of(context).colorScheme.primary),
+          TestId(
+            TestKeys.gestureDoubleTapImage,
+            child: GestureDetector(
+              key: TestKeys.gestureDoubleTapImage,
+              onDoubleTap: _toggleZoom,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: SizedBox(
+                  height: 200,
+                  child: InteractiveViewer(
+                    transformationController: _transformController,
+                    child: Container(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withValues(alpha: 0.15),
+                      child: Center(
+                        child: Icon(Icons.checkroom,
+                            size: 80,
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
                     ),
                   ),
                 ),
@@ -238,7 +257,9 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
             borderRadius: BorderRadius.circular(12),
             child: SizedBox(
               height: 200,
-              child: InteractiveViewer(
+              child: TestId(
+                       TestKeys.gesturePinchZoomContainer,
+                       child: InteractiveViewer(
                 key: TestKeys.gesturePinchZoomContainer,
                 minScale: 1.0,
                 maxScale: 4.0,
@@ -249,6 +270,7 @@ class _GestureDemoScreenState extends State<GestureDemoScreen> {
                   ),
                 ),
               ),
+                     ),
             ),
           ),
           const SizedBox(height: 24),

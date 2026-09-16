@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../constants/test_keys.dart';
 import '../services/notification_service.dart';
+import '../widgets/test_id.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -176,12 +177,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
             color: Theme.of(context).colorScheme.primaryContainer,
             child: Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
+              child: TestId(
+                       TestKeys.notificationStatusText,
+                       child: Text(
                 _statusText,
                 key: TestKeys.notificationStatusText,
                 style: Theme.of(context).textTheme.bodyLarge,
                 textAlign: TextAlign.center,
               ),
+                     ),
             ),
           ),
           const SizedBox(height: 24),
@@ -193,23 +197,29 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   .titleMedium
                   ?.copyWith(fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
-          ElevatedButton.icon(
-            key: TestKeys.notificationInstantButton,
-            onPressed: _sendInstant,
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 48),
+          TestId(
+            TestKeys.notificationInstantButton,
+            child: ElevatedButton.icon(
+              key: TestKeys.notificationInstantButton,
+              onPressed: _sendInstant,
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 48),
+              ),
+              icon: const Icon(Icons.notifications_active),
+              label: const Text('Send Instant Notification'),
             ),
-            icon: const Icon(Icons.notifications_active),
-            label: const Text('Send Instant Notification'),
           ),
           const SizedBox(height: 12),
-          OutlinedButton.icon(
-            key: TestKeys.notificationScheduleButton,
-            onPressed: _sendScheduled,
-            icon: const Icon(Icons.schedule),
-            label: const Text('Schedule Notification (5 sec)'),
-            style: OutlinedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 48),
+          TestId(
+            TestKeys.notificationScheduleButton,
+            child: OutlinedButton.icon(
+              key: TestKeys.notificationScheduleButton,
+              onPressed: _sendScheduled,
+              icon: const Icon(Icons.schedule),
+              label: const Text('Schedule Notification (5 sec)'),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 48),
+              ),
             ),
           ),
 

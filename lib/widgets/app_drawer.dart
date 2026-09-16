@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
 import '../main.dart';
 import '../services/local_storage_service.dart';
+import 'test_id.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({super.key});
@@ -58,49 +59,64 @@ class _AppDrawerState extends State<AppDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                ClipRRect(
-                  key: TestKeys.drawerLogo,
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: 60,
-                    height: 60,
+                TestId(
+                  TestKeys.drawerLogo,
+                  child: ClipRRect(
+                    key: TestKeys.drawerLogo,
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 60,
+                      height: 60,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  _username,
-                  key: TestKeys.drawerUsername,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                TestId(
+                  TestKeys.drawerUsername,
+                  child: Text(
+                    _username,
+                    key: TestKeys.drawerUsername,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
-          ListTile(
-            key: TestKeys.drawerCatalogTile,
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/home', (route) => false);
-            },
+          TestId(
+            TestKeys.drawerCatalogTile,
+            child: ListTile(
+              key: TestKeys.drawerCatalogTile,
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/home', (route) => false);
+              },
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerCartTile,
-            leading: const Icon(Icons.shopping_cart),
-            title: const Text('Cart'),
-            onTap: () => _navigateTo('/cart'),
+          TestId(
+            TestKeys.drawerCartTile,
+            child: ListTile(
+              key: TestKeys.drawerCartTile,
+              leading: const Icon(Icons.shopping_cart),
+              title: const Text('Cart'),
+              onTap: () => _navigateTo('/cart'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerAboutTile,
-            leading: const Icon(Icons.info_outline),
-            title: const Text('About'),
-            onTap: () => _navigateTo('/about'),
+          TestId(
+            TestKeys.drawerAboutTile,
+            child: ListTile(
+              key: TestKeys.drawerAboutTile,
+              leading: const Icon(Icons.info_outline),
+              title: const Text('About'),
+              onTap: () => _navigateTo('/about'),
+            ),
           ),
           const Divider(),
           Padding(
@@ -115,47 +131,68 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
             ),
           ),
-          ListTile(
-            key: TestKeys.drawerGesturesTile,
-            leading: const Icon(Icons.swipe),
-            title: const Text('Gestures'),
-            onTap: () => _navigateTo('/gestures'),
+          TestId(
+            TestKeys.drawerGesturesTile,
+            child: ListTile(
+              key: TestKeys.drawerGesturesTile,
+              leading: const Icon(Icons.swipe),
+              title: const Text('Gestures'),
+              onTap: () => _navigateTo('/gestures'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerWebViewTile,
-            leading: const Icon(Icons.web),
-            title: const Text('WebView'),
-            onTap: () => _navigateTo('/webview'),
+          TestId(
+            TestKeys.drawerWebViewTile,
+            child: ListTile(
+              key: TestKeys.drawerWebViewTile,
+              leading: const Icon(Icons.web),
+              title: const Text('WebView'),
+              onTap: () => _navigateTo('/webview'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerDialogsTile,
-            leading: const Icon(Icons.chat_bubble_outline),
-            title: const Text('Dialogs & Alerts'),
-            onTap: () => _navigateTo('/dialogs'),
+          TestId(
+            TestKeys.drawerDialogsTile,
+            child: ListTile(
+              key: TestKeys.drawerDialogsTile,
+              leading: const Icon(Icons.chat_bubble_outline),
+              title: const Text('Dialogs & Alerts'),
+              onTap: () => _navigateTo('/dialogs'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerFormTile,
-            leading: const Icon(Icons.edit_note),
-            title: const Text('Form Validation'),
-            onTap: () => _navigateTo('/form-showcase'),
+          TestId(
+            TestKeys.drawerFormTile,
+            child: ListTile(
+              key: TestKeys.drawerFormTile,
+              leading: const Icon(Icons.edit_note),
+              title: const Text('Form Validation'),
+              onTap: () => _navigateTo('/form-showcase'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerPermissionsTile,
-            leading: const Icon(Icons.security),
-            title: const Text('Permissions'),
-            onTap: () => _navigateTo('/permissions'),
+          TestId(
+            TestKeys.drawerPermissionsTile,
+            child: ListTile(
+              key: TestKeys.drawerPermissionsTile,
+              leading: const Icon(Icons.security),
+              title: const Text('Permissions'),
+              onTap: () => _navigateTo('/permissions'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerNotificationsTile,
-            leading: const Icon(Icons.notifications),
-            title: const Text('Notifications'),
-            onTap: () => _navigateTo('/notifications'),
+          TestId(
+            TestKeys.drawerNotificationsTile,
+            child: ListTile(
+              key: TestKeys.drawerNotificationsTile,
+              leading: const Icon(Icons.notifications),
+              title: const Text('Notifications'),
+              onTap: () => _navigateTo('/notifications'),
+            ),
           ),
-          ListTile(
-            key: TestKeys.drawerTabsTile,
-            leading: const Icon(Icons.tab),
-            title: const Text('Tabs & Navigation'),
-            onTap: () => _navigateTo('/tabs-navigation'),
+          TestId(
+            TestKeys.drawerTabsTile,
+            child: ListTile(
+              key: TestKeys.drawerTabsTile,
+              leading: const Icon(Icons.tab),
+              title: const Text('Tabs & Navigation'),
+              onTap: () => _navigateTo('/tabs-navigation'),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.camera_alt),
@@ -168,21 +205,27 @@ class _AppDrawerState extends State<AppDrawer> {
             onTap: () => _navigateTo('/location'),
           ),
           const Divider(),
-          SwitchListTile(
-            key: TestKeys.drawerDarkModeSwitch,
-            secondary: const Icon(Icons.dark_mode),
-            title: const Text('Dark Mode'),
-            value: themeController.isDarkMode,
-            onChanged: (value) {
-              themeController.toggleTheme(value);
-            },
+          TestId(
+            TestKeys.drawerDarkModeSwitch,
+            child: SwitchListTile(
+              key: TestKeys.drawerDarkModeSwitch,
+              secondary: const Icon(Icons.dark_mode),
+              title: const Text('Dark Mode'),
+              value: themeController.isDarkMode,
+              onChanged: (value) {
+                themeController.toggleTheme(value);
+              },
+            ),
           ),
           const Divider(),
-          ListTile(
-            key: TestKeys.drawerLogoutTile,
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
-            onTap: _logout,
+          TestId(
+            TestKeys.drawerLogoutTile,
+            child: ListTile(
+              key: TestKeys.drawerLogoutTile,
+              leading: const Icon(Icons.logout),
+              title: const Text('Logout'),
+              onTap: _logout,
+            ),
           ),
         ],
       ),

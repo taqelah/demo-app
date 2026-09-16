@@ -8,6 +8,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/cart_badge.dart';
 import '../widgets/product_card.dart';
 import '../widgets/sort_dialog.dart';
+import '../widgets/test_id.dart';
 
 class ProductCatalogScreen extends StatefulWidget {
   const ProductCatalogScreen({super.key});
@@ -181,17 +182,23 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
       appBar: AppBar(
         title: Text(title),
         actions: [
-          IconButton(
-            key: TestKeys.catalogSortButton,
-            icon: const Icon(Icons.sort),
-            onPressed: _showSortDialog,
+          TestId(
+            TestKeys.catalogSortButton,
+            child: IconButton(
+              key: TestKeys.catalogSortButton,
+              icon: const Icon(Icons.sort),
+              onPressed: _showSortDialog,
+            ),
           ),
-          CartBadge(
-            key: TestKeys.catalogCartBadge,
-            itemCount: _totalCartItems,
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart').then((_) => _loadCart());
-            },
+          TestId(
+            TestKeys.catalogCartBadge,
+            child: CartBadge(
+              key: TestKeys.catalogCartBadge,
+              itemCount: _totalCartItems,
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart').then((_) => _loadCart());
+              },
+            ),
           ),
         ],
       ),
@@ -200,28 +207,34 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
-            child: TextField(
+            child: TestId(
+                     TestKeys.catalogSearchBar,
+                     child: TextField(
               key: TestKeys.catalogSearchBar,
               controller: _searchController,
               decoration: InputDecoration(
                 hintText: 'Search dresses...',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        key: TestKeys.catalogSearchClear,
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          _searchController.clear();
-                          _onSearchChanged('');
-                        },
-                      )
-                    : null,
+                      ? TestId(
+                          TestKeys.catalogSearchClear,
+                          child: IconButton(
+                            key: TestKeys.catalogSearchClear,
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              _searchController.clear();
+                              _onSearchChanged('');
+                            },
+                          ),
+                        )
+                      : null,
                 isDense: true,
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
               onChanged: _onSearchChanged,
             ),
+                   ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -279,7 +292,9 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                       }
                       return false;
                     },
-                    child: GridView.builder(
+                    child: TestId(
+                             TestKeys.catalogGrid,
+                             child: GridView.builder(
                       key: TestKeys.catalogGrid,
                       controller: _scrollController,
                       padding: const EdgeInsets.all(8),
@@ -293,20 +308,24 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                       itemCount: _displayedProducts.length,
                       itemBuilder: (context, index) {
                         final product = _displayedProducts[index];
-                        return ProductCard(
-                          key: TestKeys.catalogProductCard(product.id),
-                          product: product,
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              '/product-detail',
-                              arguments: product,
-                            ).then((_) => _loadCart());
-                          },
-                          onAddToCart: () => _addToCart(product),
+                        return TestId(
+                          TestKeys.catalogProductCard(product.id),
+                          child: ProductCard(
+                            key: TestKeys.catalogProductCard(product.id),
+                            product: product,
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/product-detail',
+                                arguments: product,
+                              ).then((_) => _loadCart());
+                            },
+                            onAddToCart: () => _addToCart(product),
+                          ),
                         );
                       },
                     ),
+                           ),
                   ),
           ),
           if (_isLoadingMore)

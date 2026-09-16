@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import 'test_id.dart';
 
 enum SortOption {
   nameAsc('Name (A-Z)'),
@@ -30,13 +31,16 @@ class SortDialog extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
+          child: TestId(
+                   TestKeys.sortDialogTitle,
+                   child: Text(
             'Sort By',
             key: TestKeys.sortDialogTitle,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                 ),
           ),
+                 ),
         ),
         const Divider(height: 1),
         ...SortOption.values.map(

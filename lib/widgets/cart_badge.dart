@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
+import 'test_id.dart';
 
 class CartBadge extends StatelessWidget {
   final int itemCount;
@@ -16,16 +17,21 @@ class CartBadge extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        IconButton(
-          key: TestKeys.cartBadgeIcon,
-          icon: const Icon(Icons.shopping_cart_outlined),
-          onPressed: onPressed,
+        TestId(
+          TestKeys.cartBadgeIcon,
+          child: IconButton(
+            key: TestKeys.cartBadgeIcon,
+            icon: const Icon(Icons.shopping_cart_outlined),
+            onPressed: onPressed,
+          ),
         ),
         if (itemCount > 0)
           Positioned(
             top: 4,
             right: 4,
-            child: Container(
+            child: TestId(
+                     TestKeys.cartBadgeCount,
+                     child: Container(
               key: TestKeys.cartBadgeCount,
               padding: const EdgeInsets.all(4),
               decoration: const BoxDecoration(
@@ -43,6 +49,7 @@ class CartBadge extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
+                   ),
           ),
       ],
     );
