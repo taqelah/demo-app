@@ -122,9 +122,12 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
   List<Product> get _filteredAllProducts {
     if (_searchQuery.isEmpty) return _allProducts;
     final query = _searchQuery.toLowerCase();
-    // BUG: "red" is treated as a synonym for "black", so searching for red
-    // dresses also surfaces black dresses in the results.
-    final effectiveQuery = query == 'red' ? 'black' : query;
+    // BUG: a colour search is widened with a bogus synonym, so the results
+    // include dresses the shopper never asked for.
+    //   "red"   also surfaces black dresses
+    //   "white" also surfaces red dresses
+    const colourSynonyms = {'red': 'black', 'white': 'red'};
+    final effectiveQuery = colourSynonyms[query] ?? query;
     return _allProducts
         .where((p) =>
             p.name.toLowerCase().contains(query) ||
@@ -313,6 +316,9 @@ class _ProductCatalogScreenState extends State<ProductCatalogScreen> {
                           child: ProductCard(
                             key: TestKeys.catalogProductCard(product.id),
                             product: product,
+                            // BUG: search results render the price outside
+                            // the tile.
+                            priceEscapesTile: _searchQuery.isNotEmpty,
                             onTap: () {
                               Navigator.pushNamed(
                                 context,

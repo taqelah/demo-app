@@ -173,7 +173,7 @@ lib/
 
 ## Tests
 
-61 tests covering models, constants, widgets, and screens:
+67 tests covering models, constants, widgets, and screens:
 
 ```bash
 flutter test
@@ -190,9 +190,10 @@ flutter test
 | CheckoutInfo screen | 3 | Fields, validation, valid input |
 | AboutScreen | 6 | Elements, branding, features, dark mode |
 | CheckoutComplete | 2 | Success elements, messages |
-| ProductCard widget | 4 | Display, tap, add to cart |
 | QuantitySelector | 4 | Display, increment, decrement, disabled |
 | TestId a11y ids | 2 | identifier/label published, id derived from key |
+| ProductCard | 6 | Display, tap, add to cart, price stays in its tile |
+| Catalog search | 4 | Name match, empty state, colour synonyms |
 | App smoke test | 1 | App launches |
 
 ## Tech Stack

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lime_demo_app/models/product.dart';
+import 'package:lime_demo_app/theme/app_theme.dart';
 import 'package:lime_demo_app/widgets/product_card.dart';
 
 const _testProduct = Product(
@@ -95,6 +96,62 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.add_shopping_cart), findsNothing);
+    });
+
+    // These two pin the deliberate search-results defect so it is not "fixed"
+    // by accident. ProductCatalogScreen sets priceEscapesTile whenever a search
+    // query is active.
+    //
+    // Measure against the Card's inner Material - that is the painted tile.
+    // The Card's own rect includes its margin, which is theme-dependent (4px
+    // by default, 8px under AppTheme) and would mask the overhang.
+    Rect tileSurface(WidgetTester tester) => tester.getRect(find.descendant(
+          of: find.byType(Card),
+          matching: find.byType(Material),
+        ));
+
+    testWidgets('should keep the price inside the tile by default',
+        (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SizedBox(
+            height: 300,
+            width: 200,
+            child: ProductCard(
+              product: _testProduct,
+              onTap: () {},
+            ),
+          ),
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      final price = tester.getRect(find.text('\$89.99'));
+      expect(price.bottom, lessThanOrEqualTo(tileSurface(tester).bottom));
+    });
+
+    testWidgets('BUG: should push the price below the tile when flagged',
+        (tester) async {
+      await tester.pumpWidget(MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: Scaffold(
+          body: SizedBox(
+            height: 300,
+            width: 200,
+            child: ProductCard(
+              product: _testProduct,
+              onTap: () {},
+              priceEscapesTile: true,
+            ),
+          ),
+        ),
+      ));
+      await tester.pumpAndSettle();
+
+      final price = tester.getRect(find.text('\$89.99'));
+      expect(price.bottom, greaterThan(tileSurface(tester).bottom),
+          reason: 'the price should hang outside the tile');
     });
   });
 }
