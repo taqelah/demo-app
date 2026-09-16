@@ -22,7 +22,7 @@ Built with automation-friendly **test Keys** on every interactive element for Ap
 
 ### E-Commerce Flow
 - **Login** — Email/password with validation, demo credentials displayed
-- **Home** — Hero banner + 4 category cards (Casual, Evening, Party, Boho)
+- **Home** — Hero banner + 4 category cards (Casual, Evening, Party, Boho), welcome dialog after login
 - **Product Catalog** — 32 unique products, 6-per-page lazy loading, search, sort
 - **Product Detail** — Image, color picker, quantity selector, fixed Add to Cart bar
 - **Cart** — Quantity controls, swipe-to-delete, total price
@@ -52,7 +52,7 @@ Built with automation-friendly **test Keys** on every interactive element for Ap
 
 ## Test IDs
 
-All interactive elements have Appium-compatible Keys defined in [`lib/constants/test_keys.dart`](lib/constants/test_keys.dart). Naming convention:
+All interactive elements carry a Flutter `Key` from [`lib/constants/test_keys.dart`](lib/constants/test_keys.dart) **and** the same string as a native accessibility id, so the one id works from Flutter-aware drivers and from Appium's native drivers alike. Naming convention:
 
 ```
 screenName_widgetType_descriptor
@@ -63,6 +63,29 @@ Examples:
 - `catalog_product_card_1`, `catalog_sort_button`
 - `detail_add_to_cart_button`, `cart_checkout_button`
 - `form_email_field`, `form_submit_button`
+
+### Locating by accessibility ID
+
+Every keyed widget is wrapped in [`TestId`](lib/widgets/test_id.dart), which publishes the key string via `Semantics(identifier:, label:)`. That reaches the platform as:
+
+| Platform | Attribute | Appium locator |
+|----------|-----------|----------------|
+| iOS | `accessibilityIdentifier` | `AppiumBy.accessibilityId("login_button")` |
+| Android | `resource-id` | `AppiumBy.id("login_button")` |
+| Android | `content-desc` | `AppiumBy.accessibilityId("login_button")` — every element **except text fields** |
+
+Flutter routes a text field's semantics label to Android's hint text rather than its content description, so on Android use the `id` (resource-id) strategy — it covers every element including `login_username_field` and `login_password_field`.
+
+Flutter-aware drivers (flutter_driver, `integration_test`, the Appium Flutter driver, Patrol) keep using the `Key` directly.
+
+When adding a widget, give it a key in `TestKeys` and wrap it:
+
+```dart
+TestId(
+  TestKeys.loginButton,
+  child: ElevatedButton(key: TestKeys.loginButton, ...),
+)
+```
 
 ## Demo Credentials
 
@@ -150,7 +173,7 @@ lib/
 
 ## Tests
 
-51 tests covering models, constants, widgets, and screens:
+67 tests covering models, constants, widgets, and screens:
 
 ```bash
 flutter test
@@ -162,12 +185,15 @@ flutter test
 | CartItem model | 5 | Create, totalPrice, quantity, serialize |
 | CheckoutInfo model | 3 | Defaults, constructor, mutation |
 | AppConstants | 10 | Products, categories, IDs, images, prices |
-| LoginScreen | 5 | Render, validation, credentials, password toggle |
+| LoginScreen | 7 | Render, validation, credentials, password toggle, welcome hand-off |
+| HomeScreen | 7 | Welcome dialog shown, suppressed, dismissed, name fallback |
 | CheckoutInfo screen | 3 | Fields, validation, valid input |
 | AboutScreen | 6 | Elements, branding, features, dark mode |
 | CheckoutComplete | 2 | Success elements, messages |
-| ProductCard widget | 4 | Display, tap, add to cart |
 | QuantitySelector | 4 | Display, increment, decrement, disabled |
+| TestId a11y ids | 2 | identifier/label published, id derived from key |
+| ProductCard | 6 | Display, tap, add to cart, price stays in its tile |
+| Catalog search | 4 | Name match, empty state, colour synonyms |
 | App smoke test | 1 | App launches |
 
 ## Tech Stack

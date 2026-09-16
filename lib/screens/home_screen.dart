@@ -5,6 +5,8 @@ import '../models/cart_item.dart';
 import '../services/local_storage_service.dart';
 import '../widgets/app_drawer.dart';
 import '../widgets/cart_badge.dart';
+import '../widgets/welcome_dialog.dart';
+import '../widgets/test_id.dart';
 
 class _CategoryInfo {
   final String name;
@@ -22,6 +24,14 @@ class _CategoryInfo {
   });
 }
 
+/// Route arguments for `/home`. [showWelcome] is set by the login paths only,
+/// so an auto-login resumed from storage lands on home without the greeting.
+class HomeArgs {
+  const HomeArgs({this.showWelcome = false});
+
+  final bool showWelcome;
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -31,6 +41,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<CartItem> _cartItems = [];
+  bool _welcomeHandled = false;
 
   static const _categoryDetails = [
     _CategoryInfo(
@@ -67,6 +78,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadCart();
+    // Wait for the first frame so the greeting lands over a drawn home screen
+    // rather than an empty one.
+    WidgetsBinding.instance.addPostFrameCallback((_) => _maybeShowWelcome());
+  }
+
+  Future<void> _maybeShowWelcome() async {
+    if (_welcomeHandled || !mounted) return;
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is! HomeArgs || !args.showWelcome) return;
+    _welcomeHandled = true;
+
+    final username = await LocalStorageService.getUsername() ?? '';
+    if (!mounted) return;
+    await WelcomeDialog.show(context, name: welcomeDisplayName(username));
   }
 
   Future<void> _loadCart() async {
@@ -83,12 +108,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('DemoApp'),
         actions: [
-          CartBadge(
-            key: TestKeys.catalogCartBadge,
-            itemCount: _totalCartItems,
-            onPressed: () {
-              Navigator.pushNamed(context, '/cart').then((_) => _loadCart());
-            },
+          TestId(
+            TestKeys.catalogCartBadge,
+            child: CartBadge(
+              key: TestKeys.catalogCartBadge,
+              itemCount: _totalCartItems,
+              onPressed: () {
+                Navigator.pushNamed(context, '/cart').then((_) => _loadCart());
+              },
+            ),
           ),
         ],
       ),

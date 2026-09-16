@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
 import '../models/checkout_info.dart';
+import '../widgets/test_id.dart';
 
 class CheckoutInfoScreen extends StatefulWidget {
   const CheckoutInfoScreen({super.key});
@@ -41,55 +42,75 @@ class _CheckoutInfoScreenState extends State<CheckoutInfoScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Enter your shipping details',
-                key: TestKeys.checkoutInfoTitle,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+              TestId(
+                TestKeys.checkoutInfoTitle,
+                child: Text(
+                  'Enter your shipping details',
+                  key: TestKeys.checkoutInfoTitle,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                key: TestKeys.checkoutInfoFullName,
-                decoration: const InputDecoration(labelText: 'Full Name'),
-                validator: _requiredValidator,
-                onSaved: (value) => _info.fullName = value!.trim(),
+              TestId(
+                TestKeys.checkoutInfoFullName,
+                child: TextFormField(
+                  key: TestKeys.checkoutInfoFullName,
+                  decoration: const InputDecoration(labelText: 'Full Name'),
+                  validator: _requiredValidator,
+                  onSaved: (value) => _info.fullName = value!.trim(),
+                ),
               ),
               const SizedBox(height: 12),
-              TextFormField(
-                key: TestKeys.checkoutInfoAddress1,
-                decoration: const InputDecoration(labelText: 'Address Line 1'),
-                validator: _requiredValidator,
-                onSaved: (value) => _info.addressLine1 = value!.trim(),
+              TestId(
+                TestKeys.checkoutInfoAddress1,
+                child: TextFormField(
+                  key: TestKeys.checkoutInfoAddress1,
+                  decoration: const InputDecoration(labelText: 'Address Line 1'),
+                  validator: _requiredValidator,
+                  onSaved: (value) => _info.addressLine1 = value!.trim(),
+                ),
               ),
               const SizedBox(height: 12),
-              TextFormField(
-                key: TestKeys.checkoutInfoAddress2,
-                decoration: const InputDecoration(
-                    labelText: 'Address Line 2 (Optional)'),
-                onSaved: (value) => _info.addressLine2 = value?.trim() ?? '',
+              TestId(
+                TestKeys.checkoutInfoAddress2,
+                child: TextFormField(
+                  key: TestKeys.checkoutInfoAddress2,
+                  decoration: const InputDecoration(
+                      labelText: 'Address Line 2 (Optional)'),
+                  onSaved: (value) => _info.addressLine2 = value?.trim() ?? '',
+                ),
               ),
               const SizedBox(height: 12),
-              TextFormField(
-                key: TestKeys.checkoutInfoCity,
-                decoration: const InputDecoration(labelText: 'City'),
-                validator: _requiredValidator,
-                onSaved: (value) => _info.city = value!.trim(),
+              TestId(
+                TestKeys.checkoutInfoCity,
+                child: TextFormField(
+                  key: TestKeys.checkoutInfoCity,
+                  decoration: const InputDecoration(labelText: 'City'),
+                  validator: _requiredValidator,
+                  onSaved: (value) => _info.city = value!.trim(),
+                ),
               ),
               const SizedBox(height: 12),
               Row(
                 children: [
                   Expanded(
-                    child: TextFormField(
+                    child: TestId(
+                             TestKeys.checkoutInfoState,
+                             child: TextFormField(
                       key: TestKeys.checkoutInfoState,
                       decoration: const InputDecoration(labelText: 'State'),
                       validator: _requiredValidator,
                       onSaved: (value) => _info.state = value!.trim(),
                     ),
+                           ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: TextFormField(
+                    child: TestId(
+                             TestKeys.checkoutInfoZip,
+                             child: TextFormField(
                       key: TestKeys.checkoutInfoZip,
                       decoration:
                           const InputDecoration(labelText: 'Zip Code'),
@@ -97,24 +118,31 @@ class _CheckoutInfoScreenState extends State<CheckoutInfoScreen> {
                       validator: _requiredValidator,
                       onSaved: (value) => _info.zipCode = value!.trim(),
                     ),
+                           ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              TextFormField(
-                key: TestKeys.checkoutInfoCountry,
-                decoration: const InputDecoration(labelText: 'Country'),
-                validator: _requiredValidator,
-                onSaved: (value) => _info.country = value!.trim(),
+              TestId(
+                TestKeys.checkoutInfoCountry,
+                child: TextFormField(
+                  key: TestKeys.checkoutInfoCountry,
+                  decoration: const InputDecoration(labelText: 'Country'),
+                  validator: _requiredValidator,
+                  onSaved: (value) => _info.country = value!.trim(),
+                ),
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                key: TestKeys.checkoutInfoProceedButton,
-                onPressed: _proceed,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 48),
+              TestId(
+                TestKeys.checkoutInfoProceedButton,
+                child: ElevatedButton(
+                  key: TestKeys.checkoutInfoProceedButton,
+                  onPressed: _proceed,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 48),
+                  ),
+                  child: const Text('To Payment'),
                 ),
-                child: const Text('To Payment'),
               ),
             ],
           ),

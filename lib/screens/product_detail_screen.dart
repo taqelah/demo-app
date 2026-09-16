@@ -4,6 +4,7 @@ import '../models/product.dart';
 import '../models/cart_item.dart';
 import '../services/local_storage_service.dart';
 import '../widgets/quantity_selector.dart';
+import '../widgets/test_id.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key});
@@ -72,62 +73,77 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              key: TestKeys.detailImage,
-              width: double.infinity,
-              height: 350,
-              child: product.imageAsset.isNotEmpty
-                  ? Image.asset(
-                      product.imageAsset,
-                      fit: BoxFit.cover,
-                    )
-                  : Container(
-                      color: Color(product.colorValue).withValues(alpha: 0.15),
-                      child: Center(
-                        child: Icon(
-                          IconData(product.iconCodePoint,
-                              fontFamily: 'MaterialIcons'),
-                          size: 120,
-                          color: Color(product.colorValue),
+            TestId(
+              TestKeys.detailImage,
+              child: SizedBox(
+                key: TestKeys.detailImage,
+                width: double.infinity,
+                height: 350,
+                child: product.imageAsset.isNotEmpty
+                    ? Image.asset(
+                        product.imageAsset,
+                        fit: BoxFit.cover,
+                      )
+                    : Container(
+                        color: Color(product.colorValue).withValues(alpha: 0.15),
+                        child: Center(
+                          child: Icon(
+                            IconData(product.iconCodePoint,
+                                fontFamily: 'MaterialIcons'),
+                            size: 120,
+                            color: Color(product.colorValue),
+                          ),
                         ),
                       ),
-                    ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    product.name,
-                    key: TestKeys.detailName,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  TestId(
+                    TestKeys.detailName,
+                    child: Text(
+                      product.name,
+                      key: TestKeys.detailName,
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    '\$${product.price.toStringAsFixed(2)}',
-                    key: TestKeys.detailPrice,
-                    style:
-                        Theme.of(context).textTheme.headlineMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
+                  TestId(
+                    TestKeys.detailPrice,
+                    child: Text(
+                      '\$${product.price.toStringAsFixed(2)}',
+                      key: TestKeys.detailPrice,
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                    ),
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    product.description,
-                    key: TestKeys.detailDescription,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                  TestId(
+                    TestKeys.detailDescription,
+                    child: Text(
+                      product.description,
+                      key: TestKeys.detailDescription,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                   ),
                   const SizedBox(height: 24),
-                  Text(
-                    'Color',
-                    key: TestKeys.detailColorLabel,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                  TestId(
+                    TestKeys.detailColorLabel,
+                    child: Text(
+                      'Color',
+                      key: TestKeys.detailColorLabel,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -138,7 +154,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       final index = entry.key;
                       final colorValue = entry.value;
                       final isSelected = colorValue == _selectedColor;
-                      return GestureDetector(
+                      return TestId(
+                               TestKeys.detailColorOption(index),
+                               child: GestureDetector(
                         key: TestKeys.detailColorOption(index),
                         onTap: () {
                           setState(() => _selectedColor = colorValue);
@@ -151,16 +169,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             color: Color(colorValue),
                             shape: BoxShape.circle,
                             border: isSelected
-                                ? Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 3,
-                                  )
-                                : Border.all(
-                                    color: Colors.grey.shade300, width: 1),
+                                  ? Border.all(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      width: 3,
+                                    )
+                                  : Border.all(
+                                      color: Colors.grey.shade300, width: 1),
                           ),
                         ),
-                      );
+                      ),
+                             );
                     }).toList(),
                   ),
                   const SizedBox(height: 16),
@@ -202,7 +221,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: ElevatedButton.icon(
+              child: TestId(
+                       TestKeys.detailAddToCartButton,
+                       child: ElevatedButton.icon(
                 key: TestKeys.detailAddToCartButton,
                 onPressed: () => _addToCart(product),
                 style: ElevatedButton.styleFrom(
@@ -211,6 +232,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 icon: const Icon(Icons.add_shopping_cart, size: 18),
                 label: const Text('Add to Cart'),
               ),
+                     ),
             ),
           ],
         ),

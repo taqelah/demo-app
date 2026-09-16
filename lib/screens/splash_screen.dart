@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
 import '../services/local_storage_service.dart';
+import '../widgets/test_id.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -59,31 +60,40 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ClipRRect(
-                key: TestKeys.splashLogo,
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  'assets/images/logo.png',
-                  width: 120,
-                  height: 120,
+              TestId(
+                TestKeys.splashLogo,
+                child: ClipRRect(
+                  key: TestKeys.splashLogo,
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    width: 120,
+                    height: 120,
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
-              Text(
-                'DemoApp',
-                key: TestKeys.splashAppName,
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
+              TestId(
+                TestKeys.splashAppName,
+                child: Text(
+                  'DemoApp',
+                  key: TestKeys.splashAppName,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
               ),
               const SizedBox(height: 8),
-              Text(
-                'Women\'s Fashion & Dresses',
-                key: TestKeys.splashTagline,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey,
-                    ),
+              TestId(
+                TestKeys.splashTagline,
+                child: Text(
+                  'Women\'s Fashion & Dresses',
+                  key: TestKeys.splashTagline,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Colors.grey,
+                      ),
+                ),
               ),
             ],
           ),

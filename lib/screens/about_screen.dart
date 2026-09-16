@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/test_keys.dart';
 import '../main.dart';
+import '../widgets/test_id.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -18,22 +19,28 @@ class AboutScreen extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            ClipRRect(
-              key: TestKeys.aboutLogo,
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 100,
-                height: 100,
+            TestId(
+              TestKeys.aboutLogo,
+              child: ClipRRect(
+                key: TestKeys.aboutLogo,
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
+                ),
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              'DemoApp',
-              key: TestKeys.aboutAppName,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+            TestId(
+              TestKeys.aboutAppName,
+              child: Text(
+                'DemoApp',
+                key: TestKeys.aboutAppName,
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
             ),
             const SizedBox(height: 4),
             Text(
@@ -44,43 +51,49 @@ class AboutScreen extends StatelessWidget {
                   ),
             ),
             const SizedBox(height: 4),
-            Text(
-              'Version 1.0.0',
-              key: TestKeys.aboutVersion,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.grey,
-                  ),
+            TestId(
+              TestKeys.aboutVersion,
+              child: Text(
+                'Version 1.0.0',
+                key: TestKeys.aboutVersion,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey,
+                    ),
+              ),
             ),
             const SizedBox(height: 24),
-            Card(
-              key: TestKeys.aboutDescriptionCard,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Icon(Icons.school,
-                        size: 32,
-                        color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 12),
-                    Text(
-                      'Master Mobile UI Automation',
-                      style:
-                          Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'A demo app from the taqelah! community for those '
-                      'who want to master mobile UI test automation. '
-                      'Practice with real-world e-commerce flows, gestures, '
-                      'forms, permissions, notifications, and more — all '
-                      'built with automation-friendly test IDs.',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
+            TestId(
+              TestKeys.aboutDescriptionCard,
+              child: Card(
+                key: TestKeys.aboutDescriptionCard,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Icon(Icons.school,
+                          size: 32,
+                          color: Theme.of(context).colorScheme.primary),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Master Mobile UI Automation',
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'A demo app from the taqelah! community for those '
+                        'who want to master mobile UI test automation. '
+                        'Practice with real-world e-commerce flows, gestures, '
+                        'forms, permissions, notifications, and more — all '
+                        'built with automation-friendly test IDs.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -124,7 +137,9 @@ class AboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Card(
-              child: SwitchListTile(
+              child: TestId(
+                       TestKeys.aboutDarkModeSwitch,
+                       child: SwitchListTile(
                 key: TestKeys.aboutDarkModeSwitch,
                 secondary: const Icon(Icons.dark_mode),
                 title: const Text('Dark Mode'),
@@ -133,6 +148,7 @@ class AboutScreen extends StatelessWidget {
                   themeController.toggleTheme(value);
                 },
               ),
+                     ),
             ),
             const SizedBox(height: 16),
             Text(

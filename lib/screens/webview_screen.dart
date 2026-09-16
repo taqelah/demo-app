@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../constants/test_keys.dart';
+import '../widgets/test_id.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({super.key});
@@ -67,41 +68,53 @@ class _WebViewScreenState extends State<WebViewScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: TestId(
+                           TestKeys.webviewUrlField,
+                           child: TextField(
                     key: TestKeys.webviewUrlField,
                     controller: _urlController,
                     decoration: const InputDecoration(
                       hintText: 'Enter URL',
                       isDense: true,
                       contentPadding:
-                          EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     ),
                     keyboardType: TextInputType.url,
                     onSubmitted: (_) => _loadUrl(),
                   ),
+                         ),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
-                  key: TestKeys.webviewGoButton,
-                  onPressed: _loadUrl,
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(60, 42),
+                TestId(
+                  TestKeys.webviewGoButton,
+                  child: ElevatedButton(
+                    key: TestKeys.webviewGoButton,
+                    onPressed: _loadUrl,
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(60, 42),
+                    ),
+                    child: const Text('Go'),
                   ),
-                  child: const Text('Go'),
                 ),
               ],
             ),
           ),
           if (_isLoading)
-            LinearProgressIndicator(
-              key: TestKeys.webviewLoadingIndicator,
-              value: _progress > 0 ? _progress : null,
+            TestId(
+              TestKeys.webviewLoadingIndicator,
+              child: LinearProgressIndicator(
+                key: TestKeys.webviewLoadingIndicator,
+                value: _progress > 0 ? _progress : null,
+              ),
             ),
           Expanded(
-            child: WebViewWidget(
+            child: TestId(
+                     TestKeys.webviewContent,
+                     child: WebViewWidget(
               key: TestKeys.webviewContent,
               controller: _controller,
             ),
+                   ),
           ),
           Container(
             decoration: BoxDecoration(
@@ -117,20 +130,29 @@ class _WebViewScreenState extends State<WebViewScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                IconButton(
-                  key: TestKeys.webviewBackButton,
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: () => _controller.goBack(),
+                TestId(
+                  TestKeys.webviewBackButton,
+                  child: IconButton(
+                    key: TestKeys.webviewBackButton,
+                    icon: const Icon(Icons.arrow_back_ios),
+                    onPressed: () => _controller.goBack(),
+                  ),
                 ),
-                IconButton(
-                  key: TestKeys.webviewForwardButton,
-                  icon: const Icon(Icons.arrow_forward_ios),
-                  onPressed: () => _controller.goForward(),
+                TestId(
+                  TestKeys.webviewForwardButton,
+                  child: IconButton(
+                    key: TestKeys.webviewForwardButton,
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    onPressed: () => _controller.goForward(),
+                  ),
                 ),
-                IconButton(
-                  key: TestKeys.webviewRefreshButton,
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () => _controller.reload(),
+                TestId(
+                  TestKeys.webviewRefreshButton,
+                  child: IconButton(
+                    key: TestKeys.webviewRefreshButton,
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () => _controller.reload(),
+                  ),
                 ),
               ],
             ),
